@@ -5,7 +5,8 @@ const {
     getAllCarrers,
     getIdCarrer,
     getListGroupsByCarrer,
-    getListStudentsByCarrer
+    getListStudentsByCarrer,
+    createCarrer
 }=require('../controllers/carrera.js');
 
 
@@ -13,6 +14,7 @@ router.get('/carrers/', getAllCarrers)
 router.get('/carrers/:idCarrer', getIdCarrer);
 router.get('/carrers/:idCarrer/groups', getListGroupsByCarrer);
 router.get('/carrers/:idCarrer/students', getListStudentsByCarrer);
+router.post('/carrers/', createCarrer);
 
 module.exports=router;
 

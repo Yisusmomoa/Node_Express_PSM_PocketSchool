@@ -3,9 +3,9 @@ const mongoose=require('mongoose');
 const grupoSchema=new mongoose.Schema({
     nameGroup:String,
     listStudents:[
-        {type:mongoose.Schema.Types.ObjectId, ref:'user'}
+        {type:mongoose.Schema.Types.ObjectId, ref:'User'}
     ],
-    teacher:{type:mongoose.Schema.Types.ObjectId, ref:'user'},
+    teacher:{type:mongoose.Schema.Types.ObjectId, ref:'User'},
     listHomeworks:[
         {type:mongoose.Schema.Types.ObjectId, ref:'Tarea'}
     ],

@@ -8,7 +8,10 @@ const getHomeworkStudentById=(req, res)=>{
     }
     res.json(homework);
 }
+const addHomeworkStudent=(req, res)=>{
 
+}
 module.exports={
-    getHomeworkStudentById
+    getHomeworkStudentById,
+    addHomeworkStudent
 }

@@ -1,47 +1,45 @@
-const carrers=require('../Carrers.js')
+const carrers=require('../models/Carrera');
 
 const getAllCarrers=(req, res)=>{
-    res.json(carrers);
+    carrers.find({})
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>err.status(500).json({msg:err}))
+}
+const createCarrer=(req, res)=>{
+    carrers.create(req.body)
+    .then(result=>res.status(201).json(result))
+    .catch(err=>res.status(500).json({msg:err}))
 }
 
 const getIdCarrer=(req, res)=>{
     const idCarrer=req.params.idCarrer;
-    const carrer=carrers.find(element=>{
-        return element.id===idCarrer
-    });
-    if (!carrer) {
-        return res.status(404).json({"msg": "Carrer not found"})
-    }
-    res.json(carrer)
+    carrers.findById(idCarrer)
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>err.status(500).json({msg:err}))
+
 }
 
 const getListGroupsByCarrer=(req, res)=>{
     const idCarrer=req.params.idCarrer;
-    const carrer=carrers.find(element=>{
-        return element.id===idCarrer
-    }); 
-    if (!carrer) {
-        return res.status(404).json({"msg": "Carrer not found"})
-    }
-    res.json(carrer.listGroups)
+    carrers.findById(idCarrer).select("listGroups")
+    .then(result=>res.status(200).json(result))
+    .catch(err=>err.status(500).json({msg:err}))
+
 }
 
 const getListStudentsByCarrer=(req, res)=>{
     const idCarrer=req.params.idCarrer;
-    const carrer=carrers.find(element=>{
-        return element.id===idCarrer
-    }); 
-    if (!carrer) {
-        return res.status(404).json({"msg": "Carrer not found"})
-    }
-    res.json(carrer.listUsers) 
+    carrers.findById(idCarrer).select("listStudents")
+    .then(result=>res.status(200).json(result))
+    .catch(err=>err.status(500).json({msg:err}))
 }
 
 module.exports={
     getAllCarrers,
     getIdCarrer,
     getListGroupsByCarrer,
-    getListStudentsByCarrer
+    getListStudentsByCarrer,
+    createCarrer
 }
 
 //Query String

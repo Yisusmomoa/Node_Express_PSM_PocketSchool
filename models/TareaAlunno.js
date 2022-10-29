@@ -4,8 +4,8 @@ const mongoose=require('mongoose');
 
 const tareaAlumnoSchema=new mongoose.Schema({
     dateDelivery:Date,
-    pdfs:[],
-    student:{type:mongoose.Schema.Types.ObjectId, ref:'user'},
+    pdfs:String,
+    student:{type:mongoose.Schema.Types.ObjectId, ref:'User'},
     status:{
         type:Boolean,
         default:false
