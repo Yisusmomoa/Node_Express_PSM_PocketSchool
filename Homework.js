@@ -1,4 +1,6 @@
 const crypto=require('crypto')
+const listHomeworksStudents=require('./HomeworkStudent.js')
+
 const Homework=[
     {
         id:crypto.randomUUID(),
@@ -7,7 +9,7 @@ const Homework=[
         pdfs:[],
         DateInit:new Date(),
         DateEnd:new Date(),
-        listHomeworksStudents:[]
+        listHomeworksStudents:listHomeworksStudents
     },
     {
         id:crypto.randomUUID(),
@@ -25,7 +27,7 @@ const Homework=[
         pdfs:[],
         DateInit:new Date(),
         DateEnd:new Date(),
-        listHomeworksStudents:[]
+        listHomeworksStudents:listHomeworksStudents
     },
     {
         id:crypto.randomUUID(),
@@ -34,7 +36,8 @@ const Homework=[
         pdfs:[],
         DateInit:new Date(),
         DateEnd:new Date(),
-        listHomeworksStudents:[]
+        listHomeworksStudents:listHomeworksStudents
     }
 ]
+// console.log(Homework)
 module.exports=Homework
