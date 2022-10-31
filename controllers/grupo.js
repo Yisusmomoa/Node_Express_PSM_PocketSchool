@@ -1,119 +1,98 @@
-const groups=require('../Groups.js')
-const crypto=require('crypto');
-const listaUsuarios=require('../Usuarios.js');
+const groups=require('../models/Grupo.js');
 
 const getGroups=(req, res)=>{
-    res.json(groups);
+    groups.find({})
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>res.status(400).json({msg:err}))
 }
 
 const getGroupById=(req, res)=>{
     const id=req.params.groupId;
-    const group=groups.find(group=>group.id===id)
-    if (!group) {
-        return res.status(404).json({"msg": "Group not found"})
-    }
-    res.json(group);
+    groups.findById(id)
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>err.status(500).json({msg:err}))
 }
 
 const getStudentsByIdGroup=(req, res)=>{
     const id=req.params.groupId;
-    const group=groups.find(group=>group.id===id)
-    if (!group) {
-        return res.status(404).json({"msg": "Group not found"})
-    }
-    res.json(group.listStudents);
+    groups.findById(id).select("listStudents")
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>res.status(500).json({msg:err}))
 }
 
 const getTeacherByIdGroup=(req, res)=>{
     const id=req.params.groupId;
-    const group=groups.find(group=>group.id===id)
-    if (!group) {
-        return res.status(404).json({"msg": "Group not found"})
-    }
-    res.json(group.Teacher);
+    groups.findById(id).select("teacher")
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>res.status(500).json({msg:err}))
 }
 
 const getHomeworksByIdGroup=(req, res)=>{
     const id=req.params.groupId;
-    const group=groups.find(group=>group.id===id)
-    if (!group) {
-        return res.status(404).json({"msg": "Group not found"})
-    }
-    res.json(group.listHomeworks);
+    groups.findById(id).select("listHomeworks")
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>res.status(500).json({msg:err}))
 }
 
 const postCreateGroup=(req, res)=>{
-    const newGroup={
-        id:crypto.randomUUID(),
-        nameGroup:req.body.nameGroup,
-        listStudents:req.body.listStudents,
-        Teacher:listaUsuarios.find(element=>element.typeUser==="Teacher"),
-        listHomeworks:[],
-        date:new Date()
-    }
-    if(!newGroup.nameGroup){
-        return res.status(400).json({msg: "content missing"})
-    }
-    groups.push(newGroup);
-    res.status(201).json(newGroup);
-
+    groups.create(req.body)
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>res.status(500).json({msg:err}))
 }
 
 const putUpdateGroup=(req, res)=>{
-    const id=req.params.groupId;
-    const index=groups.findIndex(element=>element.id===id);
-    if (index===-1) {
-        return res.status(404).json({msg:"Group not found"})
-    }
-    const updateGroup={
-        id:groups[index],
-        nameGroup:req.body.nameGroup || groups[index].nameGroup
-    }
-    groups[index]=updateGroup;
-    res.status(200).json({msg:"Group updated"})
+    const groupId=req.params.groupId;
+    const nameGroup=req.body.nameGroup;
+    groups.updateOne({_id:{$eq:groupId}},{$set:{nameGroup:nameGroup}} )
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>res.status(500).json({msg:err}))
 }
 
 const deleteGroup=(req, res)=>{
-    const id=req.params.groupId;
-    const index=groups.findIndex(group=>group.id===id);
-    if (index===-1) {
-       return res.status(404).json({msg:"Group not found"})
-    }
-    groups.splice(index, 1);
-    res.status(200).json({msg: "Group deleted"})
+    const groupId=req.params.groupId;
+    groups.deleteOne({_id:groupId})
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>res.status(500).json({msg:err}))
 }
 
 const addStudentsGroup=(req, res)=>{
-    const id=req.params.groupId;
-    const listStudents=req.body.listStudents;
-    const index=groups.findIndex(element=>element.id===id);
-    if (index===-1) {
-        return res.status(404).json({msg:"Group not found"})
-    }
-    groups[index].listStudents.push(listStudents);
-    res.status(200).json(groups[index].listStudents)
+    const groupId=req.params.groupId;
+    const idStudent=req.body.idStudent;
+    groups.findOneAndUpdate(
+        {_id:groupId},
+        {$push:{
+            "listStudents":idStudent
+        }}
+    )
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>res.status(500).json({msg:err}));
 }
 
 const addHomeworkGroup=(req, res)=>{
-    const id=req.params.groupId;
-    const index=groups.findIndex(element=>element.id===id);
-    if (index===-1) {
-        return res.status(404).json({msg:"Group not found"})
-    }
-    const newHomework={
-        id:crypto.randomUUID(),
-        title:req.body.title,
-        description:req.body.description,
-        pdfs:[],
-        DateInit:new Date(),
-        DateEnd:new Date(),
-        listHomeworksStudents:[]
-    }
-    if (!newHomework.title || !newHomework.description) {
-        return res.status(400).json({msg: "content missing"})
-    }
-    groups[index].listHomeworks.push(newHomework);
-    res.status(201).json(newHomework)
+    const groupId=req.params.groupId;
+    const idHomework=req.body.idHomework;
+    groups.findOneAndUpdate(
+        {_id:groupId},
+        {$push:{
+            "listHomeworks":idHomework
+        }}
+    )
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>res.status(500).json({msg:err}));
+}
+const deleteStudentGroup=(req, res)=>{
+    const groupId=req.params.groupId;
+    const idStudent=req.body.idStudent;
+    groups.findOneAndUpdate(
+        {_id:groupId},
+        {
+            $pull:{
+                "listStudents":idStudent
+            }
+        }
+    )
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>res.status(500).json({msg:err}));
 }
 
 module.exports={
@@ -126,5 +105,6 @@ module.exports={
     putUpdateGroup,
     deleteGroup,
     addStudentsGroup,
-    addHomeworkGroup
+    addHomeworkGroup,
+    deleteStudentGroup
 }

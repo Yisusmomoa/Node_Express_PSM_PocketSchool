@@ -5,6 +5,7 @@ const getAllCarrers=(req, res)=>{
     .then(result=>res.status(200).json({result}))
     .catch(err=>err.status(500).json({msg:err}))
 }
+
 const createCarrer=(req, res)=>{
     carrers.create(req.body)
     .then(result=>res.status(201).json(result))
@@ -16,7 +17,6 @@ const getIdCarrer=(req, res)=>{
     carrers.findById(idCarrer)
     .then(result=>res.status(200).json({result}))
     .catch(err=>err.status(500).json({msg:err}))
-
 }
 
 const getListGroupsByCarrer=(req, res)=>{
@@ -34,12 +34,39 @@ const getListStudentsByCarrer=(req, res)=>{
     .catch(err=>err.status(500).json({msg:err}))
 }
 
+const addStudentCarrer=(req, res)=>{
+    const idCarrer=req.params.idCarrer;
+    const idStudent=req.body.idStudent;
+
+    carrers.findOneAndUpdate(
+        {_id:idCarrer},
+        {$push:{
+            "listStudents":idStudent
+        }})
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>res.status(500).json({msg:err}));
+}
+
+const addGroupCarrer=(req, res)=>{
+    const idCarrer=req.params.idCarrer;
+    const idGroup=req.body.idGroup;
+    carrers.findOneAndUpdate(
+        {_id:idCarrer},
+        {$push:{
+            "listGroups":idGroup
+        }})
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>res.status(500).json({msg:err}));
+}
+
 module.exports={
     getAllCarrers,
     getIdCarrer,
     getListGroupsByCarrer,
     getListStudentsByCarrer,
-    createCarrer
+    createCarrer,
+    addStudentCarrer,
+    addGroupCarrer
 }
 
 //Query String
