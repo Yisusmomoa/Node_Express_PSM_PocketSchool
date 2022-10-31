@@ -1,17 +1,34 @@
-const homeworkStudents=require('../HomeworkStudent.js')
+const homeworkStudents=require('../models/TareaAlunno.js')
+
+const getHomeworks=(req, res)=>{
+    homeworkStudents.find({})
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>res.status(500).json({msg:err}));
+}
 
 const getHomeworkStudentById=(req, res)=>{
-    const id=req.params.homeworkStudentId;
-    const homework=homeworkStudents.find(element=>element.id===id);
-    if (!homework) {
-        return res.status(404).json({"msg": "Homework not found"})
-    }
-    res.json(homework);
+    const homeworkStudentId=req.params.homeworkStudentId;
+    homeworkStudents.find({_id:homeworkStudentId})
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>res.status(500).json({msg:err}));
 }
-const addHomeworkStudent=(req, res)=>{
 
+const addHomeworkStudent=(req, res)=>{
+    homeworkStudents.create(req.body)
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>res.status(500).json({msg:err}));
 }
+
+const getHomeworkById=(req, res)=>{
+    const idHomeworkStudent=req.params.idHomeworkStudent
+    homeworkStudents.findOne({_id:idHomeworkStudent})
+    .then(result=>res.status(200).json({result}))
+    .catch(err=>res.status(500).json({msg:err}));
+}
+
 module.exports={
     getHomeworkStudentById,
-    addHomeworkStudent
+    addHomeworkStudent,
+    getHomeworks,
+    getHomeworkById
 }
