@@ -7,8 +7,8 @@ const getHomeworks=(req, res)=>{
 }
 
 const getHomeworkStudentById=(req, res)=>{
-    const homeworkStudentId=req.params.homeworkStudentId;
-    homeworkStudents.find({_id:homeworkStudentId})
+    const homeworkStudentId=req.params.homeworkStudentId;//id del estudiante
+    homeworkStudents.find({student:homeworkStudentId})
     .then(result=>res.status(200).json({result}))
     .catch(err=>res.status(500).json({msg:err}));
 }
