@@ -7,7 +7,12 @@ const getUsers=(req, res)=>{
     .catch(err=>res.status(500).json({msg:err}))
 }
 
-const register=(req, res)=>{
+const register=async (req, res)=>{
+    const {email}=req.body
+    let user=await usuarios.findOne({email})
+    if (user) {
+        return res.status(400).send("User already registered.")
+    }
     usuarios.create(req.body)
     .then(result=>res.status(200).json({result}))
     .catch((err)=>res.status(500).json({msg:err}))
@@ -29,11 +34,14 @@ const getUserById=(req, res)=>{
     .catch((err)=>res.status(500).json({msg:err}))
 }
 
-const updateUser=(req, res)=>{
-    const {username, password}=req.body;
+const updateUser=async (req, res)=>{
+    const {username, password, name, profilePhoto}=req.body;
+    
     const idUser=req.params.userId;
-    console.log(idUser)
-    cusuarios.updateOne({_id:{$eq:idUser}},{$set:{username:username, password:password}} )
+    //const user=await usuarios.findOne({_id:idUser})
+
+    usuarios.findOneAndUpdate({_id:{$eq:idUser}},{$set:{username:username, 
+        password:password, name:name, profilePhoto:profilePhoto}}, {new: true} )
     .then(result=>res.status(200).json({result}))
     .catch(err=>res.status(500).json({msg:err}))
 }

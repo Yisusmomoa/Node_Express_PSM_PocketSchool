@@ -12,7 +12,7 @@ const {
 
 router.get('/users/', getUsers)
 router.post('/users/register', register);
-router.get('/users/login', login);
+router.post('/users/login', login);
 router.get('/users/:userId', getUserById);
 router.put('/users/:userId', updateUser)
 module.exports=router;
