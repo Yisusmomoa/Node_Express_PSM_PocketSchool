@@ -1,6 +1,7 @@
 
 const usuarios=require('../models/User.js');
 
+
 const getUsers=(req, res)=>{
     usuarios.find({})
     .then(result=>res.status(200).json({result}))
@@ -46,10 +47,17 @@ const updateUser=async (req, res)=>{
     .catch(err=>res.status(500).json({msg:err}))
 }
 
+const updatePic=(req, res)=>{
+    const idUser=req.params.userId;
+    
+
+}
+
 module.exports={
     getUsers,
     register,
     login,
     getUserById,
-    updateUser
+    updateUser,
+    updatePic
 }
