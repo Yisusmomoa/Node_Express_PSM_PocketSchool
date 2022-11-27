@@ -34,16 +34,50 @@ const getUserById=(req, res)=>{
     .catch((err)=>res.status(500).json({msg:err}))
 }
 
-const updateUser=async (req, res)=>{
-    const {username, password, name, profilePhoto}=req.body;
+const updateUser=(req, res)=>{
+    const {username, password, name}=req.body;
     
     const idUser=req.params.userId;
     //const user=await usuarios.findOne({_id:idUser})
 
     usuarios.findOneAndUpdate({_id:{$eq:idUser}},{$set:{username:username, 
-        password:password, name:name, profilePhoto:profilePhoto}}, {new: true} )
+        password:password, name:name}}, {new: true} )
     .then(result=>res.status(200).json({result}))
     .catch(err=>res.status(500).json({msg:err}))
+}
+//upload.single('my-file')
+const multer=require('multer');
+
+// const storage=multer.diskStorage({
+//     destination:function(req, file, cb){
+//         cb(null,'uploads/fotos/')
+//     },
+//     filename:function (req, file, cb) {
+//         console.log(file)
+//         cb(null, file.fieldname+'-'+Date.now()+".jpg")
+//     }
+// })
+const Storage=multer.diskStorage({
+    destination:"uploads",
+    filename:function (req, file, cb) {
+        console.log(file)
+        cb(null, file.fieldname+'-'+Date.now()+".jpg")
+    }
+})
+let upload=multer({storage:Storage}).single('image')
+
+//const uploadPic=upload.single('myFile')
+
+const updateUserPic=( req, res)=>{
+    
+    const idUser=req.params.userId;
+    upload(req, res)
+    .then(res=>{
+        console.log(res)
+    })
+    .catch(err=>console.log(err))
+    console.log(idUser)
+    
 }
 
 module.exports={
@@ -51,5 +85,7 @@ module.exports={
     register,
     login,
     getUserById,
-    updateUser
+    updateUser,
+    updateUserPic,
+    
 }
