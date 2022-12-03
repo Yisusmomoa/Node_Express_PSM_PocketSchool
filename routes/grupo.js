@@ -4,6 +4,7 @@ const router=express.Router();
 const {
     getGroups,
     getGroupById,
+    getGroupsByUser,
     getStudentsByIdGroup,
     getTeacherByIdGroup,
     getHomeworksByIdGroup,
@@ -18,6 +19,7 @@ const {
 
 router.get('/groups/', getGroups);
 router.get('/groups/:groupId', getGroupById) 
+router.get('/groups/user/:idUser', getGroupsByUser)
 router.get('/groups/:groupId/Students', getStudentsByIdGroup);
 router.get('/groups/:groupId/Teacher', getTeacherByIdGroup);
 router.get('/groups/:groupId/Homeworks', getHomeworksByIdGroup);

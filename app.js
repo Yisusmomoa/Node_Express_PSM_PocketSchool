@@ -15,6 +15,9 @@ const PORT=5000
 app.use(express.json())//Middleware
 app.use(bodyParser.urlencoded({ extended: false }))
 
+app.use(bodyParser.json({limit: '2mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '2mb', extended: true}))
+
 console.log(process.env.MONGO_URI)
 
 mongoose.connect(process.env.MONGO_URI)

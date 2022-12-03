@@ -1,9 +1,8 @@
-
 const usuarios=require('../models/User.js');
 
 const getUsers=(req, res)=>{
-    usuarios.find({})
-    .then(result=>res.status(200).json({result}))
+    usuarios.find()
+    .then(result=>res.status(200).json(result))
     .catch(err=>res.status(500).json({msg:err}))
 }
 
@@ -30,7 +29,7 @@ const login=(req, res)=>{
 
 const getUserById=(req, res)=>{
     usuarios.findOne({_id:req.params.userId})
-    .then(result=>res.status(200).json({result}))
+    .then(result=>res.status(200).json(result))
     .catch((err)=>res.status(500).json({msg:err}))
 }
 
