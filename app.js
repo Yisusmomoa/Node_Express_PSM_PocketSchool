@@ -4,6 +4,11 @@ const app=express();
 const bodyParser=require('body-parser')
 require('dotenv').config({path:"./fichier.env"})
 
+//app.use(express.json())//Middleware
+
+app.use(bodyParser.json({limit: '50mb', extended:true}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit:50000}));
+
 const productsRouter=require('./routes/products.js')
 const usersRouter=require('./routes/usuarios.js')
 const carrersRouter=require('./routes/carrera.js')
@@ -12,11 +17,6 @@ const homeworkRouter=require('./routes/homework.js')
 const homeworkStudent=require('./routes/homeworkStudent')
 
 const PORT=5000
-app.use(express.json())//Middleware
-app.use(bodyParser.urlencoded({ extended: false }))
-
-app.use(bodyParser.json({limit: '2mb', extended: true}))
-app.use(bodyParser.urlencoded({limit: '2mb', extended: true}))
 
 console.log(process.env.MONGO_URI)
 
