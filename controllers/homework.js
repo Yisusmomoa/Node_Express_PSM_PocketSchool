@@ -43,10 +43,17 @@ const createHomework=(req, res)=>{
     .catch(err=>res.status(500).json({msg:err}))
 }
 
+const getHomeworksByUser=(req, res)=>{
+    const idUser=req.params.userId;
+    
+}
+
+
 module.exports={
     getHomeworks,
     getHomeworkById,
     updateHomework,
     addHomeworkStudent,
-    createHomework
+    createHomework,
+    getHomeworksByUser
 }

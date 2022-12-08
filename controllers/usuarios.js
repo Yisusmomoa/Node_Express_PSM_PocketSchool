@@ -45,10 +45,21 @@ const updateUser=async (req, res)=>{
     .catch(err=>res.status(500).json({msg:err}))
 }
 
+const updatePic=(req, res)=>{
+    const idUser=req.params.userId;
+    const {profilePhoto}=req.body
+    console.log(idUser)
+    console.log(profilePhoto)
+    usuarios.findOneAndUpdate({_id:{$eq:idUser}}, {$set:{profilePhoto:profilePhoto}}, {new: true})
+    .then(result=>res.status(200).json(result))
+    .catch(err=>res.status(500).json({msg:err}))
+}
+
 module.exports={
     getUsers,
     register,
     login,
     getUserById,
-    updateUser
+    updateUser,
+    updatePic
 }

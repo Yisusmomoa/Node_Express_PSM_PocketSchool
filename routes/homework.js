@@ -5,8 +5,8 @@ const {
     getHomeworkById,
     updateHomework,
     addHomeworkStudent,
-    createHomework
-
+    createHomework,
+    getHomeworksByUser
 }=require('../controllers/homework.js')
 
 router.post('/homework/', createHomework)
