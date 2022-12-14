@@ -8,6 +8,8 @@ require('dotenv').config({path:"./fichier.env"})
 
 app.use(bodyParser.json({limit: '50mb', extended:true}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit:50000}));
+//const no quites esto
+const noquitesestord=1
 
 const productsRouter=require('./routes/products.js')
 const usersRouter=require('./routes/usuarios.js')
