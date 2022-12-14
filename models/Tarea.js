@@ -9,7 +9,11 @@ const tareaSchema=new mongoose.Schema({
     tareasAlumnos:[
         {type:mongoose.Schema.Types.ObjectId, ref:'TareaAlumno'}
     ],
-    grupo:{type:mongoose.Schema.Types.ObjectId, ref:'Grupo'}
+    grupo:{type:mongoose.Schema.Types.ObjectId, ref:'Grupo'},
+    status:{
+        type:Boolean,
+        default:true
+    }
 }, 
 {timestamps:true,
     versionKey:false})
