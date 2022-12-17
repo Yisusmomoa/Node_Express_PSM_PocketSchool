@@ -93,9 +93,12 @@ const getHomeworksByTeacher=async(req, res)=>{
             path: "listHomeworks",
             model: "Tarea"
         })
-        const listHomeworks=grupos.reduce((acc, el)=>{
+        let listHomeworks=grupos.reduce((acc, el)=>{
             return acc.concat(el.listHomeworks)
         }, [])
+        
+        listHomeworks=listHomeworks.filter(element=>element.status==true)
+
         res.status(200).json(listHomeworks)
     } catch (error) {
         res.send({
