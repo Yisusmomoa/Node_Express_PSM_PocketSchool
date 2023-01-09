@@ -6,13 +6,13 @@ require('dotenv').config({path:"./fichier.env"})
 const cors = require('cors');
 
 //app.use(express.json())//Middleware
-//use cors to allow cross origin resource sharing
-// app.use(
-//     cors({
-//       origin: 'http://localhost:3000',
-//       credentials: true,
-//     })
-//   );
+// use cors to allow cross origin resource sharing
+app.use(
+    cors({
+      origin: 'https://express-psm4.onrender.com',
+      credentials: true,
+    })
+  );
 app.use(bodyParser.json({limit: '50mb', extended:true}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit:50000}));
 //const no quites esto
