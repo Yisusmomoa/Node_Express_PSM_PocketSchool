@@ -9,7 +9,7 @@ const cors = require('cors');
 // use cors to allow cross origin resource sharing
 app.use(
     cors({
-      origin: 'https://express-psm4.onrender.com',
+      origin: 'http://localhost:3000',
       credentials: true,
     })
   );
