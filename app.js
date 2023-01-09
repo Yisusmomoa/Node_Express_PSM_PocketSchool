@@ -9,7 +9,7 @@ const cors = require('cors');
 // use cors to allow cross origin resource sharing
 app.use(
     cors({
-      origin: 'https://remarkable-granita-1d0048.netlify.app',
+      origin: 'https://remarkable-granita-1d0048.netlify.app/',
       credentials: true,
     })
   );
