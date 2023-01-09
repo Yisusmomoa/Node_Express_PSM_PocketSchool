@@ -3,9 +3,16 @@ const mongoose=require('mongoose');
 const app=express();
 const bodyParser=require('body-parser')
 require('dotenv').config({path:"./fichier.env"})
+const cors = require('cors');
 
 //app.use(express.json())//Middleware
-
+//use cors to allow cross origin resource sharing
+// app.use(
+//     cors({
+//       origin: 'http://localhost:3000',
+//       credentials: true,
+//     })
+//   );
 app.use(bodyParser.json({limit: '50mb', extended:true}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit:50000}));
 //const no quites esto

@@ -8,6 +8,7 @@ const getUsers=(req, res)=>{
 
 const register=async (req, res)=>{
     const {email}=req.body
+    console.log(email)
     let user=await usuarios.findOne({email})
     if (user) {
         return res.status(400).send("User already registered.")
@@ -23,7 +24,7 @@ const login=(req, res)=>{
         email:req.body.email,
         password:req.body.password
     })
-    .then(result=>res.status(200).json({result}))
+    .then(result=>res.status(200).json(result))
     .catch(err=>res.status(500).json({msg:err}))
 }
 
